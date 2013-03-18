@@ -4,4 +4,33 @@
   <artifactId>FeedReadd</artifactId>
   <version>0.0.1</version>
   <name>FeedReadd</name>
+  <build>
+                <plugins>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-jar-plugin</artifactId>
+                                <configuration>
+                                        <archive>
+                                                <manifest>
+                                                        <addClasspath>true</addClasspath>
+                                                        <classpathPrefix>/home/jimw/workspace/FeedReadd/lib</classpathPrefix>
+                                                        <mainClass>net.brakingpoint.FeedRead.FeedReadMain</mainClass>
+                                                </manifest>
+					</archive>
+	        				<descriptorRefs>
+          					<descriptorRef>jar-with-dependencies</descriptorRef>
+        				</descriptorRefs>
+                                </configuration>
+                        </plugin>
+                </plugins>
+        </build>
+  <dependencies>
+        <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>1.0</version>
+        </dependency>
+    
+  </dependencies>
 </project>
+
