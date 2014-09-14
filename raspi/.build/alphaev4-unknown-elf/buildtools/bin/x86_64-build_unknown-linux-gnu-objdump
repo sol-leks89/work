@@ -1,0 +1,2 @@
+#!/bin/bash
+exec '/vol2/raspi/.build/tools/bin/objdump' "${@}"
