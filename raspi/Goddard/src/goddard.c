@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "mongoose.h"
+#include "log.h"
 #include "maestro.h"
 static const char *html_form =
   "<html><body>POST example."
@@ -71,6 +72,9 @@ int main(void) {
   const char *options[] = {"listening_ports", "8900", NULL};
   struct mg_callbacks callbacks;
 
+  log_level(SEV_TRACE);
+  log_trace("Starting Goddard");
+
   maestroInit(&fd);
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.begin_request = begin_request_handler;
@@ -78,6 +82,7 @@ int main(void) {
   getchar();  // Wait until user hits "enter"
   mg_stop(ctx);
   close(fd);
-
+  log_trace("End Goddard");
+  
   return 0;
 }
