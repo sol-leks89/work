@@ -6,26 +6,54 @@
 #include <unistd.h>
 #include <termios.h>
 
+#include "utiljww.h"
+
+
  
 // Gets the position of a Maestro channel.
 // See the "Serial Servo Commands" section of the user's guide.
 int maestroGetPosition(int fd, unsigned char channel)
 {
   unsigned char command[] = {0x90, channel};
+  dumpBuf("GetPosition, command", command, sizeof(command));
   if(write(fd, command, sizeof(command)) == -1)
   {
-    perror("error writing");
+    log_error("error writing");
     return -1;
   }
    
   unsigned char response[2];
   if(read(fd,response,2) != 2)
   {
-    perror("error reading");
+    log_error("error reading");
+    return -1;
+  }
+  dumpBuf("GetPosition, response", response, sizeof(response));
+   
+  return response[0] + 256*response[1];
+}
+
+// Gets the PARAMETER for the given channel
+// See the "Serial Servo Commands" section of the user's guide.
+int maestroGetParameter(int fd, unsigned char channel, unsigned char *retBuf)
+{
+  unsigned char command[] = {0x90, channel};
+  dumpBuf("GetParameter, command", (unsigned char *) command, sizeof(command));
+
+  if(write(fd, command, sizeof(command)) == -1)
+  {
+    log_error("error writing");
     return -1;
   }
    
-  return response[0] + 256*response[1];
+  unsigned char response[2];
+  if(read(fd,response,2) != 2)
+  {
+    log_error("error reading");
+    return -1;
+  }
+   //response[0] + 256*response[1]
+  return 0;
 }
  
 // Sets the target of a Maestro channel.
@@ -34,9 +62,10 @@ int maestroGetPosition(int fd, unsigned char channel)
 int maestroSetTarget(int fd, unsigned char channel, unsigned short target)
 {
   unsigned char command[] = {0x84, channel, target & 0x7F, target >> 7 & 0x7F};
+  dumpBuf("SerTarget, command", command, sizeof(command));
   if (write(fd, command, sizeof(command)) == -1)
   {
-    perror("error writing");
+    log_error("error writing");
     return -1;
   }
   return 0;
@@ -52,7 +81,7 @@ int maestroInit(int *fd)
   *fd = open(device, O_RDWR | O_NOCTTY);
   if (*fd == -1)
   {
-    perror(device);
+    log_error((char *) device);
     return 1;
   }
   else

@@ -5,7 +5,7 @@ all:
 	  test "$$OS" = Linux && LIBS="-ldl" ; \
 	  $(CC) $(CFLAGS) goddard.c ../../mongoose/mongoose.c \
 	  ../../maestro/src/maestro.c ../../utilities/src/log.c  \
-	  ../../utilities/src/dunpBuf.c  $$LIBS $(ADD) -o goddard;
+	  ../../utilities/src/dumpBuf.c  $$LIBS $(ADD) -o goddard;
 
 
 clean:

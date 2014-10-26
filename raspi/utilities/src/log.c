@@ -7,9 +7,10 @@ int write_log(int severity, char *msg)
 {
 	int retCd = 0;
 	log_level(severity+2);
-	 openlog ("goddard.log", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
-	syslog (LOG_ALERT, msg);
-	closelog ();
+	 //openlog ("goddard.log", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+	//syslog (LOG_ALERT, msg);
+	//closelog ();
+	printf("%s\n", msg);
 
 	return retCd;
 }
