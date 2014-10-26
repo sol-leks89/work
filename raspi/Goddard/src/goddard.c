@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "mongoose.h"
-#include "log.h"
+#include "utiljww.h"
 #include "maestro.h"
 static const char *html_form =
   "<html><body>POST example."

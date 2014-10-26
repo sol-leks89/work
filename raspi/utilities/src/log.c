@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <syslog.h>
 
-#include "log.h"
+#include "utiljww.h"
 
 int write_log(int severity, char *msg)
 {
