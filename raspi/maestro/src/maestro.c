@@ -81,7 +81,9 @@ int maestroInit(int *fd)
   *fd = open(device, O_RDWR | O_NOCTTY);
   if (*fd == -1)
   {
-    log_error((char *) device);
+    char errmsg[80];
+    sprintf(errmsg, "Can;t open %s", device);
+    log_error((char *) errmsg);
     return 1;
   }
   else

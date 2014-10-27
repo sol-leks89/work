@@ -8,9 +8,9 @@
 #include "maestro.h"
 static const char *html_form =
   "<html><body>POST example."
-  "<form method=\"POST\" action=\"/handle_post_request\">"
-  "Input 1: <input type=\"text\" name=\"input_1\" /> <br/>"
-  "Input 2: <input type=\"text\" name=\"input_2\" /> <br/>"
+  "<form method=\"POST\" action=\"/set-channel-position\">"
+  "Channel: <input type=\"text\" name=\"channel\" /> <br/>"
+  "Position: <input type=\"text\" name=\"\" /> <br/>"
   "<input type=\"submit\" />"
   "</form></body></html>";
 
