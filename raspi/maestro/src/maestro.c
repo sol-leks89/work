@@ -39,7 +39,7 @@ int maestroGetPosition(int fd, unsigned char channel)
 // See the "Serial Servo Commands" section of the user's guide.
 int maestroGetParameter(int fd, unsigned char channel, unsigned char *retBuf)
 {
-  unsigned char command[] = {REQUEST_GET_PARAMETER, 12*channel};
+  unsigned char command[] = {REQUEST_GET_PARAMETER, 12+channel};
   dumpBuf("GetParameter, command", (unsigned char *) command, sizeof(command));
 
   if(write(fd, command, sizeof(command)) == -1)
