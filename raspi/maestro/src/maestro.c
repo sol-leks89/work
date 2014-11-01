@@ -5,8 +5,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
+#include <string.h>
 
+#include "maestro.h"
 #include "utiljww.h"
+
 
 
  
@@ -29,7 +32,6 @@ int maestroGetPosition(int fd, unsigned char channel)
     return -1;
   }
   dumpBuf("GetPosition, response", response, sizeof(response));
-   
   return response[0] + 256*response[1];
 }
 
@@ -37,7 +39,7 @@ int maestroGetPosition(int fd, unsigned char channel)
 // See the "Serial Servo Commands" section of the user's guide.
 int maestroGetParameter(int fd, unsigned char channel, unsigned char *retBuf)
 {
-  unsigned char command[] = {0x90, channel};
+  unsigned char command[] = {REQUEST_GET_PARAMETER, 12*channel};
   dumpBuf("GetParameter, command", (unsigned char *) command, sizeof(command));
 
   if(write(fd, command, sizeof(command)) == -1)
@@ -53,6 +55,8 @@ int maestroGetParameter(int fd, unsigned char channel, unsigned char *retBuf)
     return -1;
   }
    //response[0] + 256*response[1]
+  memcpy(retBuf, response, 2);
+  
   return 0;
 }
  

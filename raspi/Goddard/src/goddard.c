@@ -10,7 +10,7 @@ static const char *html_form =
   "<html><body>POST example."
   "<form method=\"POST\" action=\"/set-channel-position\">"
   "Channel: <input type=\"text\" name=\"channel\" /> <br/>"
-  "Position: <input type=\"text\" name=\"\" /> <br/>"
+  "Position: <input type=\"text\" name=\"position\" /> <br/>"
   "<input type=\"submit\" />"
   "</form></body></html>";
 
@@ -79,6 +79,9 @@ int main(void) {
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.begin_request = begin_request_handler;
   ctx = mg_start(&callbacks, NULL, options);
+  unsigned char buf[8];
+  maestroGetParameter(fd, 5, buf);
+  dumpBuf("Channel 6", buf, sizeof(buf));
   getchar();  // Wait until user hits "enter"
   mg_stop(ctx);
   close(fd);
