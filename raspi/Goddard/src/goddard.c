@@ -80,9 +80,15 @@ int main(void) {
   callbacks.begin_request = begin_request_handler;
   ctx = mg_start(&callbacks, NULL, options);
   unsigned char buf[8];
-  maestroGetParameter(fd, 5, buf);
-  dumpBuf("Channel 6", buf, sizeof(buf));
-  getchar();  // Wait until user hits "enter"
+  //maestroGetParameter(fd, 5, buf);
+  //dumpBuf("Channel 6", buf, sizeof(buf));
+  int eye_reading;
+  while (1)
+  {
+      eye_reading = maestroGetPosition(fd, 5);
+      dumpBuf("EYE READING", (unsigned char *)&eye_reading, sizeof(eye_reading));
+      sleep(500);
+  }
   mg_stop(ctx);
   close(fd);
   log_trace("End Goddard");

@@ -27,6 +27,10 @@
 #define PARAMETER_CHANNEL_MODES_0_3 12
 #define PARAMETER_CHANNEL_MODES_4_7 13
 
+	#define PARAMETER_IO_MASK_C 16
+        #define PARAMETER_OUTPUT_MASK_C 17
+
+
 
 
 extern int maestroGetPosition(int fd, unsigned char channel);
