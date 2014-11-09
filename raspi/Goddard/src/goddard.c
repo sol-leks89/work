@@ -6,6 +6,8 @@
 #include "mongoose.h"
 #include "utiljww.h"
 #include "maestro.h"
+#include "goddard.h"
+
 static const char *html_form =
   "<html><body>POST example."
   "<form method=\"POST\" action=\"/set-channel-position\">"
@@ -57,7 +59,14 @@ static int begin_request_handler(struct mg_connection *conn) {
               "input_1: [%s]\n"
               "input_2: [%s]\n",
               post_data_len, post_data, post_data_len, input1, input2);
-  }else {
+  } else if (!strcmp(ri->uri, "/init-tilt")) {
+    
+    printf("Tilt: %d\n", init_tilt(fd));
+
+    // Send reply to the client, showing submitted form values.
+    mg_printf(conn, "HTTP/1.0 200 OK\r\n"
+              "Content-Type: text/plain\r\n\r\n");
+          }else {
     // Show HTML form.
     mg_printf(conn, "HTTP/1.0 200 OK\r\n"
               "Content-Length: %d\r\n"
@@ -86,12 +95,22 @@ int main(void) {
   while (1)
   {
       eye_reading = maestroGetPosition(fd, 5);
-      dumpBuf("EYE READING", (unsigned char *)&eye_reading, sizeof(eye_reading));
-      sleep(500);
+      //dumpBuf("EYE READING", (unsigned char *)&eye_reading, sizeof(eye_reading));
+      sleep(100);
   }
   mg_stop(ctx);
   close(fd);
   log_trace("End Goddard");
   
   return 0;
+}
+int init_tilt(int fd) {
+  int i = TILT_UP_MAX;
+  maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MAX);
+  maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MIN);
+  while (maestroGetPosition(fd, EYE_CHANNEL) > 750) ;
+  i = maestroGetPosition(fd, TILT_CHANNEL);
+  i += 250;
+  maestroSetTarget(fd, TILT_CHANNEL, i);
+  return i;
 }
