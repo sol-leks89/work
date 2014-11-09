@@ -27,8 +27,8 @@
 #define PARAMETER_CHANNEL_MODES_0_3 12
 #define PARAMETER_CHANNEL_MODES_4_7 13
 
-	#define PARAMETER_IO_MASK_C 16
-        #define PARAMETER_OUTPUT_MASK_C 17
+#define PARAMETER_IO_MASK_C 16
+#define PARAMETER_OUTPUT_MASK_C 17
 
 
 
@@ -38,4 +38,4 @@ extern int maestroSetTarget(int fd, unsigned char channel, unsigned short target
 extern int maestroInit(int *fd);
 extern void maestroTerm(int fd);
 extern int maestroGetParameter(int, unsigned char, unsigned char *);
-
+extern void maestroWaitForPosition(int, int, int);

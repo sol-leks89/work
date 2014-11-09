@@ -106,3 +106,7 @@ void maestroTerm(int fd)
 {
   close(fd);
 }
+void maestroWaitForPosition(int fd, int channel, int position)
+{
+  while (maestroGetPosition(fd, channel) != position);
+}
