@@ -111,7 +111,7 @@ int init_tilt(int fd) {
   maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MIN);
   while (maestroGetPosition(fd, EYE_CHANNEL) > 750) ;
   i = maestroGetPosition(fd, TILT_CHANNEL);
-  i += 250;
+  i -= 400;
   maestroSetTarget(fd, TILT_CHANNEL, i);
   return i;
 }
