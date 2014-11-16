@@ -108,5 +108,8 @@ void maestroTerm(int fd)
 }
 void maestroWaitForPosition(int fd, int channel, int position)
 {
-  while (maestroGetPosition(fd, channel) != position);
+  while (maestroGetPosition(fd, channel) != position)
+    {
+      usleep(50000);
+    }
 }
