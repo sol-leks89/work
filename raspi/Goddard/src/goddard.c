@@ -107,11 +107,21 @@ int main(void) {
 int init_tilt(int fd) {
   int i = TILT_UP_MAX;
   maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MAX);
-  maestroWaitForPosition(fd, TILT_CHANNEL, TILT_UP_MAX);
-  maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MIN);
-  while (maestroGetPosition(fd, EYE_CHANNEL) > 750) ;
-  i = maestroGetPosition(fd, TILT_CHANNEL);
-  i -= 400;
-  maestroSetTarget(fd, TILT_CHANNEL, i);
+  usleep(1000000);
+  int pos;
+  for (pos = TILT_UP_MAX; pos > TILT_UP_MIN; pos -= 100)
+  {
+    maestroSetTarget(fd, TILT_CHANNEL, pos);
+    usleep(500000);
+    printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+        pos,
+        maestroGetPosition(fd, 0),
+        maestroGetPosition(fd, 1),
+        maestroGetPosition(fd, 2),
+        maestroGetPosition(fd, 3),
+        maestroGetPosition(fd, 4),
+        maestroGetPosition(fd, 5));
+  }
+  
   return i;
 }
