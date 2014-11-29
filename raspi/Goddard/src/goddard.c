@@ -109,10 +109,13 @@ int init_tilt(int fd) {
   maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MAX);
   usleep(1000000);
   int pos;
-  for (pos = TILT_UP_MAX; pos > TILT_UP_MIN; pos -= 100)
+  for (pos = TILT_UP_MAX; pos < TILT_UP_MIN; pos += 200)
   {
     maestroSetTarget(fd, TILT_CHANNEL, pos);
-    usleep(500000);
+    usleep(250000);
+    if (maestroGetPosition(fd, 5)  < 750 && i == TILT_UP_MAX	)
+      i = pos - 200;
+
     printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
         pos,
         maestroGetPosition(fd, 0),
@@ -123,5 +126,6 @@ int init_tilt(int fd) {
         maestroGetPosition(fd, 5));
   }
   
+  maestroSetTarget(fd, TILT_CHANNEL, i);
   return i;
 }
