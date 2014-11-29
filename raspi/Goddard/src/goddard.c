@@ -88,7 +88,7 @@ int main(void) {
   memset(&callbacks, 0, sizeof(callbacks));
   callbacks.begin_request = begin_request_handler;
   ctx = mg_start(&callbacks, NULL, options);
-  unsigned char buf[8];
+  //unsigned char buf[8];
   //maestroGetParameter(fd, 5, buf);
   //dumpBuf("Channel 6", buf, sizeof(buf));
   int eye_reading;
@@ -109,12 +109,13 @@ int init_tilt(int fd) {
   maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MAX);
   usleep(1000000);
   int pos;
-  for (pos = TILT_UP_MAX; pos < TILT_UP_MIN; pos += 200)
+  for (pos = TILT_UP_MAX; pos < TILT_UP_MIN; pos += STEP_DOWN)
   {
     maestroSetTarget(fd, TILT_CHANNEL, pos);
-    usleep(250000);
-    if (maestroGetPosition(fd, 5)  < 750 && i == TILT_UP_MAX	)
-      i = pos - 200;
+    usleep(FAST_SCAN);
+    if (maestroGetPosition(fd, EYE_CHANNEL)  < EYE_THRESHOLD 
+      && i == TILT_UP_MAX	)
+      i = pos;
 
     printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
         pos,
@@ -125,7 +126,50 @@ int init_tilt(int fd) {
         maestroGetPosition(fd, 4),
         maestroGetPosition(fd, 5));
   }
-  
+
   maestroSetTarget(fd, TILT_CHANNEL, i);
+  i = find_min_edge(fd, TILT_CHANNEL, TILT_UP_MAX, i);
+
   return i;
+}
+int find_min_edge(int fd, int channel, int min, int max)
+{
+  int edge = 0;
+  int step = STEP_DOWN;
+  int end = min;
+  int pos;
+  int eye;
+  while (max - min > STEP_UP && edge != -1)
+  {
+    printf("min %d max %d \n", min, max);
+    if (step < 0)
+    {
+      eye = 1023;
+      for (pos = max; pos >= min && eye > EYE_THRESHOLD; pos += step) 
+      {
+        maestroSetTarget(fd, channel, pos);
+        usleep(SLOW_SCAN);
+        eye = maestroGetPosition(fd, EYE_CHANNEL);
+      }
+      if (pos <= end)
+          edge = -1;
+      else
+        min = pos;
+    }
+    else
+    {
+      eye = 0;
+      for (pos = min; pos <= max && eye < EYE_THRESHOLD; pos += step) 
+      {
+        maestroSetTarget(fd, channel, pos);
+        usleep(SLOW_SCAN);
+        eye = maestroGetPosition(fd, EYE_CHANNEL);
+      }
+      max = pos;
+    }
+    step = step * -1;
+  }
+  if (edge != -1)
+    edge = min;
+  return edge;
 }
