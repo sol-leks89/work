@@ -105,16 +105,16 @@ int main(void) {
   return 0;
 }
 int init_tilt(int fd) {
-  int i = TILT_UP_MAX;
+  int i = TILT_UP_MIN;
   maestroSetTarget(fd, TILT_CHANNEL, TILT_UP_MAX);
   usleep(1000000);
   int pos;
-  for (pos = TILT_UP_MAX; pos < TILT_UP_MIN; pos += STEP_DOWN)
+  for (pos = TILT_UP_MAX; i != pos && pos < TILT_UP_MIN; pos += STEP_DOWN)
   {
     maestroSetTarget(fd, TILT_CHANNEL, pos);
     usleep(FAST_SCAN);
     if (maestroGetPosition(fd, EYE_CHANNEL)  < EYE_THRESHOLD 
-      && i == TILT_UP_MAX	)
+      && i == TILT_UP_MIN)
       i = pos;
 
     printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
@@ -129,43 +129,45 @@ int init_tilt(int fd) {
 
   maestroSetTarget(fd, TILT_CHANNEL, i);
   i = find_min_edge(fd, TILT_CHANNEL, TILT_UP_MAX, i);
-
+  maestroSetTarget(fd, TILT_CHANNEL, i);
   return i;
 }
 int find_min_edge(int fd, int channel, int min, int max)
 {
   int edge = 0;
-  int step = STEP_DOWN;
+  int step = STEP_UP;
   int end = min;
   int pos;
   int eye;
-  while (max - min > STEP_UP && edge != -1)
+  while (max - min > STEP_DOWN && edge != -1)
   {
     printf("min %d max %d \n", min, max);
     if (step < 0)
     {
-      eye = 1023;
-      for (pos = max; pos >= min && eye > EYE_THRESHOLD; pos += step) 
+      eye = 0;
+      for (pos = max; pos >= min && eye < EYE_THRESHOLD; pos += step) 
       {
         maestroSetTarget(fd, channel, pos);
         usleep(SLOW_SCAN);
         eye = maestroGetPosition(fd, EYE_CHANNEL);
+        printf("pos %d eye %d \n", pos, eye);
       }
       if (pos <= end)
           edge = -1;
       else
-        min = pos;
+        min = pos - step;
     }
     else
     {
-      eye = 0;
-      for (pos = min; pos <= max && eye < EYE_THRESHOLD; pos += step) 
+      eye = 1023;
+      for (pos = min; pos <= max && eye > EYE_THRESHOLD; pos += step) 
       {
         maestroSetTarget(fd, channel, pos);
         usleep(SLOW_SCAN);
         eye = maestroGetPosition(fd, EYE_CHANNEL);
+        printf("DOWN eye %d pos %d \n",eye, pos);
       }
-      max = pos;
+      max = pos - step;
     }
     step = step * -1;
   }
