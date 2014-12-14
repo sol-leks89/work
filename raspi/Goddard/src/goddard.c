@@ -130,8 +130,12 @@ int init_tilt(int fd) {
   maestroSetTarget(fd, TILT_CHANNEL, i);
   i = find_min_edge(fd, TILT_CHANNEL, TILT_UP_MAX, i);
   maestroSetTarget(fd, TILT_CHANNEL, i);
+  int k = find_max_edge(fd, TILT_CHANNEL, i + 150, TILT_UP_MIN);
+  printf("min = %d\tmax = %d\n", i, k);
+  
   return i;
 }
+// It is expected that the eye will be below EYE_THRESHOLD @ max
 int find_min_edge(int fd, int channel, int min, int max)
 {
   int edge = 0;
@@ -173,5 +177,49 @@ int find_min_edge(int fd, int channel, int min, int max)
   }
   if (edge != -1)
     edge = min;
+  return edge;
+}
+// It is expected that the eye will be below EYE_THRESHOLD @ min
+int find_max_edge(int fd, int channel, int min, int max)
+{
+  int edge = 65535;
+  int step = STEP_DOWN;
+  int end = max;
+  int pos;
+  int eye;
+  while (max - min > STEP_DOWN && edge != -1)
+  {
+    printf("min %d max %d \n", min, max);
+    if (step < 0)
+    {
+      eye = 0;
+      for (pos = max; pos >= min && eye < EYE_THRESHOLD; pos += step) 
+      {
+        maestroSetTarget(fd, channel, pos);
+        usleep(SLOW_SCAN);
+        eye = maestroGetPosition(fd, EYE_CHANNEL);
+        printf("pos %d eye %d \n", pos, eye);
+      }
+      if (pos <= end)
+          edge = -1;
+      else
+        min = pos - step;
+    }
+    else
+    {
+      eye = 1023;
+      for (pos = min; pos <= max && eye > EYE_THRESHOLD; pos += step) 
+      {
+        maestroSetTarget(fd, channel, pos);
+        usleep(SLOW_SCAN);
+        eye = maestroGetPosition(fd, EYE_CHANNEL);
+        printf("DOWN eye %d pos %d \n",eye, pos);
+      }
+      max = pos - step;
+    }
+    step = step * -1;
+  }
+  if (edge != -1)
+    edge = max;
   return edge;
 }

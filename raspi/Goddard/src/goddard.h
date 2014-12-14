@@ -12,3 +12,4 @@
 
 int init_tilt(int);
 int find_min_edge(int fd, int channel, int min, int max);
+int find_max_edge(int fd, int channel, int min, int max);
