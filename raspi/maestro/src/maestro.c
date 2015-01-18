@@ -17,22 +17,31 @@
 // See the "Serial Servo Commands" section of the user's guide.
 int maestroGetPosition(int fd, unsigned char channel)
 {
+  int retCd = -1;
   unsigned char command[] = {0x90, channel};
   dumpBuf("GetPosition, command", command, sizeof(command));
-  if(write(fd, command, sizeof(command)) == -1)
+  while (retCd == -1) 
   {
-    log_error("error writing");
-    return -1;
+    if(write(fd, command, sizeof(command)) == -1)
+    {
+      log_error("error writing");
+      retCd = -1;
+    }
+    else
+    {
+      unsigned char response[2];
+      if(read(fd,response,2) != 2)
+      {
+        log_error("error reading");
+        retCd =  -1;
+      }
+      else
+      {
+        dumpBuf("GetPosition, response", response, sizeof(response));
+        retCd = response[0] + 256*response[1];
+      }
   }
-   
-  unsigned char response[2];
-  if(read(fd,response,2) != 2)
-  {
-    log_error("error reading");
-    return -1;
-  }
-  dumpBuf("GetPosition, response", response, sizeof(response));
-  return response[0] + 256*response[1];
+  return retCd;
 }
 
 // Gets the PARAMETER for the given channel
