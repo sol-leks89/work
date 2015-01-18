@@ -192,8 +192,8 @@ int find_max_edge(int fd, int channel, int min, int max)
     printf("min %d max %d \n", min, max);
     if (step < 0)
     {
-      eye = 0;
-      for (pos = max; pos >= min && eye < EYE_THRESHOLD; pos += step) 
+      eye = 1023;
+      for (pos = max; pos >= min && eye > EYE_THRESHOLD; pos += step) 
       {
         maestroSetTarget(fd, channel, pos);
         usleep(SLOW_SCAN);
@@ -207,8 +207,8 @@ int find_max_edge(int fd, int channel, int min, int max)
     }
     else
     {
-      eye = 1023;
-      for (pos = min; pos <= max && eye > EYE_THRESHOLD; pos += step) 
+      eye = 0;
+      for (pos = min; pos <= max && eye < EYE_THRESHOLD; pos += step) 
       {
         maestroSetTarget(fd, channel, pos);
         usleep(SLOW_SCAN);
