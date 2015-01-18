@@ -40,6 +40,7 @@ int maestroGetPosition(int fd, unsigned char channel)
         dumpBuf("GetPosition, response", response, sizeof(response));
         retCd = response[0] + 256*response[1];
       }
+    }
   }
   return retCd;
 }
