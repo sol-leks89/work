@@ -1,0 +1,30 @@
+2020-10-31 09:46:13,214 -0700 [main] TRACE (fileutilities.java:18) - FileUtilitieconstructor
+2020-10-31 09:46:13,217 -0700 [main] TRACE (App.java:20) - *** Starting UTF8Cleaner
+2020-10-31 09:46:13,217 -0700 [main] TRACE (fileutilities.java:24) - entering RemoveAltChars
+2020-10-31 09:46:13,217 -0700 [main] TRACE (fileutilities.java:31) - Opening ../pom.xml
+2020-10-31 09:46:13,218 -0700 [main] INFO  (fileutilities.java:64) - 60 lines processed.
+2020-10-31 10:25:14,413 -0700 [main] TRACE (fileutilities.java:18) - FileUtilitieconstructor
+2020-10-31 10:25:14,416 -0700 [main] TRACE (App.java:20) - *** Starting UTF8Cleaner
+2020-10-31 10:25:14,417 -0700 [main] TRACE (fileutilities.java:24) - entering RemoveAltChars
+2020-10-31 10:25:14,417 -0700 [main] TRACE (fileutilities.java:31) - Opening /Volumes/public/scratch/2020/team/ASG 2021 Applications.csv
+2020-10-31 10:25:21,644 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 16 at line 31
+2020-10-31 10:25:21,644 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 27 at line 31
+2020-10-31 10:25:21,647 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 16 at line 81
+2020-10-31 10:25:21,647 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 32 at line 81
+2020-10-31 10:25:21,647 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 16 at line 91
+2020-10-31 10:25:21,647 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 36 at line 91
+2020-10-31 10:25:21,648 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 16 at line 131
+2020-10-31 10:25:21,648 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 50 at line 131
+2020-10-31 10:25:21,648 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 54 at line 361
+2020-10-31 10:25:21,649 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 77 at line 361
+2020-10-31 10:25:21,649 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 112 at line 361
+2020-10-31 10:25:21,655 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 21 at line 471
+2020-10-31 10:25:21,657 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 60 at line 471
+2020-10-31 10:25:21,657 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 18 at line 481
+2020-10-31 10:25:21,658 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 56 at line 481
+2020-10-31 10:25:21,658 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 25 at line 501
+2020-10-31 10:25:21,658 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 31 at line 511
+2020-10-31 10:25:21,658 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 15 at line 541
+2020-10-31 10:25:21,667 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 141 at line 1241
+2020-10-31 10:25:21,667 -0700 [main] INFO  (fileutilities.java:50) - Replaced � at 34 at line 1391
+2020-10-31 10:25:21,678 -0700 [main] INFO  (fileutilities.java:64) - 320 lines processed.
