@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="net.brakingpoint.tools.utilities.AppTest" time="0.005" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="net.brakingpoint.tools.utilities.AppTest" time="0.003" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="14.0.1+14"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/14.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="maven.multiModuleProjectDirectory" value="/Users/jimweiss/eclipse-workspace/utilities"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/jimweiss/eclipse-workspace/work/utilities"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="java.vendor.url" value="https://openjdk.java.net/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -13,7 +13,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/Users/jimweiss/eclipse-workspace/utilities"/>
+    <property name="user.dir" value="/Users/jimweiss/eclipse-workspace/work/utilities"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="java.runtime.version" value="14.0.1+14"/>
     <property name="os.arch" value="x86_64"/>
@@ -57,5 +57,5 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
-  <testcase classname="net.brakingpoint.tools.utilities.AppTest" name="testApp" time="0.005"/>
+  <testcase classname="net.brakingpoint.tools.utilities.AppTest" name="testApp" time="0.003"/>
 </testsuite>
