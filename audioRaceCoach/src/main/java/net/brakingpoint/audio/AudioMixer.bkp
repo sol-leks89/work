@@ -1,0 +1,62 @@
+package net.brakingpoint.audio;
+
+import javax.sound.sampled.*;
+import java.nio.ByteBuffer;
+
+public class AudioMixer {
+    private SourceDataLine masterLine;
+    private float humVol = 0.0f;
+    private float hissVol = 0.0f;
+    private float chirpActive = 0.0f; // Acts as a trigger/timer
+    
+    public AudioMixer() throws LineUnavailableException {
+        AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+        masterLine = AudioSystem.getSourceDataLine(format);
+        masterLine.open(format, 4096); // Small buffer for low latency
+        masterLine.start();
+        
+        // Single thread that mixes all three sources
+        new Thread(this::mixingLoop).start();
+    }
+    
+    private void mixingLoop() {
+        double phaseHum = 0;
+        double phaseHiss = 0;
+        double phaseChirp = 0;
+        
+        byte[] buffer = new byte[512]; // Small chunks for responsiveness
+        
+        while (true) {
+            for (int i = 0; i < buffer.length / 2; i++) {
+                // Generate samples for each source
+                double sHum = Math.sin(phaseHum) * humVol;
+                double sHiss = (Math.random() * 2 - 1) * hissVol; // White noise hiss
+                double sChirp = 0;
+                
+                if (chirpActive > 0) {
+                    sChirp = Math.sin(phaseChirp) * 0.9; // Fixed 0.9 volume for chirp
+                    phaseChirp += 2.0 * Math.PI * 440 / 44100;
+                    chirpActive -= (1.0 / 44100); // Countdown duration
+                } else {
+                    phaseChirp = 0; // Reset phase when done
+                }
+                
+                phaseHum += 2.0 * Math.PI * 110 / 44100;
+                
+                // Mix them (average/sum)
+                short mixed = (short) ((sHum + sHiss + sChirp) * 32767 / 2);
+                
+                buffer[2 * i] = (byte) (mixed >> 8);
+                buffer[2 * i + 1] = (byte) (mixed & 0xFF);
+            }
+            masterLine.write(buffer, 0, buffer.length);
+        }
+    }
+    
+    public void playChirp() {
+        this.chirpActive = 0.3f; // Set duration to 200ms
+    }
+    
+    public void setHumVolume(float vol) { this.humVol = vol; }
+    public void setHissVolume(float vol) { this.hissVol = vol; }
+}
